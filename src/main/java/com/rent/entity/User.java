@@ -1,6 +1,5 @@
 package com.rent.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rent.base.BaseEntity;
 import lombok.Data;
 
@@ -8,6 +7,7 @@ import javax.persistence.*;
 
 /**
  * 用户实体类
+ * @author Exrickx
  */
 @Data
 @Entity

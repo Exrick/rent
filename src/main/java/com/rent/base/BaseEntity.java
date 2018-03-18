@@ -24,7 +24,6 @@ public abstract class BaseEntity implements Serializable{
      * 唯一标识
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     /**

@@ -1,6 +1,6 @@
 package com.rent.controller;
 
-import com.rent.utils.CreateVerifyCode;
+import com.rent.common.utils.CreateVerifyCode;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
