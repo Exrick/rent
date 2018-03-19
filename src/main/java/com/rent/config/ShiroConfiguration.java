@@ -44,15 +44,15 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/user/login", "anon");
 
         filterChainDefinitionMap.put("/v2/**", "anon");
-         filterChainDefinitionMap.put("/swagger-resources/**", "anon");
+        filterChainDefinitionMap.put("/swagger-resources/**", "anon");
 
         //过滤样式
-        filterChainDefinitionMap.put("/assets/**", "anon");
-        filterChainDefinitionMap.put("/lib/**", "anon");
-        filterChainDefinitionMap.put("/static/**", "anon");
+        filterChainDefinitionMap.put("/**/*.js", "anon");
+        filterChainDefinitionMap.put("/**/*.css", "anon");
+        filterChainDefinitionMap.put("/**/*.png", "anon");
         filterChainDefinitionMap.put("/swagger/**", "anon");
         //避免一些浏览器登录不跳转直接下载favicon.ico文件
-        filterChainDefinitionMap.put("/favicon.ico", "anon");
+        filterChainDefinitionMap.put("/**/favicon.ico", "anon");
 
         filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setLoginUrl("/user/login");
