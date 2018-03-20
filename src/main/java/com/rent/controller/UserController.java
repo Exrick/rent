@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @Api(description = "用户接口")
 @RequestMapping("/user")
+@CrossOrigin
 public class UserController extends BaseController<User, Integer> {
 
     @Autowired
