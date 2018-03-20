@@ -4,8 +4,11 @@ import com.rent.common.utils.CreateVerifyCode;
 import com.rent.common.utils.ResultUtil;
 import com.rent.common.vo.Captcha;
 import com.rent.common.vo.Result;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,12 +22,16 @@ import java.util.concurrent.TimeUnit;
  * @author Exrickx
  */
 @RestController
+@Api(description = "验证码接口")
+@RequestMapping("/captcha")
+@CrossOrigin
 public class CaptchaController {
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-    @RequestMapping("/initCaptcha")
+    @RequestMapping("/init")
+    @ApiOperation(value = "初始化验证码")
     public Result<Object> initCaptcha() {
 
         String codeId= UUID.randomUUID().toString();
@@ -32,11 +39,12 @@ public class CaptchaController {
         Captcha captcha=new Captcha();
         captcha.setCaptchaId(codeId);
         //缓存验证码
-        stringRedisTemplate.opsForValue().set(codeId,code,5L, TimeUnit.MINUTES);
+        stringRedisTemplate.opsForValue().set(codeId,code,1L, TimeUnit.MINUTES);
         return new ResultUtil<Object>().setData(captcha);
     }
 
-    @RequestMapping("/drawCaptcha")
+    @RequestMapping("/draw")
+    @ApiOperation(value = "根据验证码ID获取图片")
     public void drawCaptcha(String codeId,HttpServletResponse response) throws IOException {
 
         //得到验证码 生成指定验证码

@@ -39,7 +39,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/swagger-ui.html", "anon");
 
         //接口
-        filterChainDefinitionMap.put("/captcha", "anon");
+        filterChainDefinitionMap.put("/captcha/**", "anon");
         filterChainDefinitionMap.put("/admin/login", "anon");
         filterChainDefinitionMap.put("/user/login", "anon");
 
