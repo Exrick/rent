@@ -104,8 +104,12 @@ public class UserController extends BaseController<User, Integer> {
         }
 
         if(!verify.toLowerCase().equals(code.toLowerCase())) {
-            log.error("登陆失败，验证码错误：code:"+ verify +",sessionCode:"+code.toLowerCase());
+            log.error("注册失败，验证码错误：code:"+ verify +",sessionCode:"+code.toLowerCase());
             return new ResultUtil<Object>().setErrorMsg("验证码输入错误");
+        }
+
+        if(userService.findByUsername(u.getUsername())!=null){
+            return new ResultUtil<Object>().setErrorMsg("该用户名已被注册");
         }
 
         String md5Pass = DigestUtils.md5DigestAsHex(u.getPassword().getBytes());
