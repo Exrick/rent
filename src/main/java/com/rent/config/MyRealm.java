@@ -53,10 +53,9 @@ public class MyRealm extends AuthorizingRealm{
         //获取用户名和密码
         String username = token.getPrincipal().toString();
         User user=userService.findByUsername(username);
-        String md5Pass = DigestUtils.md5DigestAsHex(user.getPassword().getBytes());
         if (user != null){
             //得到用户账号和密码存放到authenticationInfo中用于Controller层的权限判断 第三个参数随意但不能为null
-            AuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user.getUsername(),md5Pass, "rent") ;
+            AuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user.getUsername(),user.getPassword(), "rent") ;
             return authenticationInfo ;
         }else{
             return null ;

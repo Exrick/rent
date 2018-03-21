@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
@@ -30,7 +31,7 @@ public class CaptchaController {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-    @RequestMapping("/init")
+    @RequestMapping(value = "/init",method = RequestMethod.GET)
     @ApiOperation(value = "初始化验证码")
     public Result<Object> initCaptcha() {
 
@@ -43,7 +44,7 @@ public class CaptchaController {
         return new ResultUtil<Object>().setData(captcha);
     }
 
-    @RequestMapping("/draw")
+    @RequestMapping(value = "/draw", method = RequestMethod.GET)
     @ApiOperation(value = "根据验证码ID获取图片")
     public void drawCaptcha(String codeId,HttpServletResponse response) throws IOException {
 
