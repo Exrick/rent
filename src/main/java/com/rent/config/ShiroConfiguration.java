@@ -34,8 +34,6 @@ public class ShiroConfiguration {
         //anon表示不需要验证，authc表示需要验证身份才能访问
 
         //页面
-        filterChainDefinitionMap.put("/", "anon");
-        filterChainDefinitionMap.put("/login", "anon");
         filterChainDefinitionMap.put("/swagger-ui.html", "anon");
 
         //接口
