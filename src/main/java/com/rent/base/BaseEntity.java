@@ -24,6 +24,7 @@ public abstract class BaseEntity implements Serializable{
      * 唯一标识
      */
     @Id
+    @GeneratedValue
     private Integer id;
 
     /**
