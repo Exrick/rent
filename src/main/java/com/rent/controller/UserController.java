@@ -116,14 +116,6 @@ public class UserController extends BaseController<User, Integer> {
         }
 
         return new ResultUtil<Object>().setData(user);
-
     }
 
-    @RequestMapping(value = "/findByUsername/{username}", method = RequestMethod.GET)
-    @ApiOperation("通过用户名获取用户")
-    public Result<Object> findByUsername(@PathVariable String username){
-
-        User user=userService.findByUsername(username);
-        return new ResultUtil().setData(user);
-    }
 }

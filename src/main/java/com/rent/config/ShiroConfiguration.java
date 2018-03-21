@@ -40,7 +40,7 @@ public class ShiroConfiguration {
 
         //接口
         filterChainDefinitionMap.put("/captcha/**", "anon");
-        filterChainDefinitionMap.put("/admin/login", "anon");
+        filterChainDefinitionMap.put("/user/regist", "anon");
         filterChainDefinitionMap.put("/user/login", "anon");
 
         filterChainDefinitionMap.put("/v2/**", "anon");
