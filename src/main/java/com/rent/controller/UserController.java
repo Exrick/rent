@@ -48,8 +48,7 @@ public class UserController extends BaseController<User, Integer> {
     @ApiOperation(value = "用户登录")
     public Result<Object> login(@ModelAttribute User u,
                                 @RequestParam String verify,
-                                @RequestParam String codeId,
-                                HttpServletRequest request){
+                                @RequestParam String codeId){
 
         if(StrUtil.isBlank(verify)||StrUtil.isBlank(u.getUsername())
                 ||StrUtil.isBlank(u.getPassword())){
@@ -90,17 +89,22 @@ public class UserController extends BaseController<User, Integer> {
     @RequestMapping(value = "/regist",method = RequestMethod.POST)
     @ApiOperation(value = "注册")
     public Result<Object> regist(@ModelAttribute User u,
-                                @RequestParam String verify,
-                                HttpServletRequest request){
+                                 @RequestParam String verify,
+                                 @RequestParam String codeId){
 
         if(StrUtil.isBlank(verify)||StrUtil.isBlank(u.getUsername())
                 ||StrUtil.isBlank(u.getPassword())){
             return new ResultUtil<Object>().setErrorMsg("缺少必需表单字段");
         }
 
-        String sessionCode = (String) request.getSession().getAttribute("code");
-        if(!verify.toLowerCase().equals(sessionCode)) {
-            log.error("验证码错误：code:"+verify+",sessionCode:"+sessionCode);
+        //验证码
+        String code=stringRedisTemplate.opsForValue().get(codeId);
+        if(StrUtil.isBlank(code)){
+            return new ResultUtil<Object>().setErrorMsg("验证码已过期，请重新获取");
+        }
+
+        if(!verify.toLowerCase().equals(code.toLowerCase())) {
+            log.error("登陆失败，验证码错误：code:"+ verify +",sessionCode:"+code.toLowerCase());
             return new ResultUtil<Object>().setErrorMsg("验证码输入错误");
         }
 
