@@ -122,4 +122,47 @@ public class UserController extends BaseController<User, Integer> {
         return new ResultUtil<Object>().setData(user);
     }
 
+    @RequestMapping(value = "/edit",method = RequestMethod.POST)
+    @ApiOperation(value = "修改资料",notes = "用户名密码不会修改 需获取用户id通过id修改")
+    public Result<Object> edit(@ModelAttribute User u){
+
+        if(u.getId()==null){
+            throw new RentException("用户ID不得为空");
+        }
+        User old=userService.get(u.getId());
+
+        u.setUsername(old.getUsername());
+        u.setPassword(old.getPassword());
+
+        User user=userService.update(u);
+        if(user==null){
+            throw new RentException("修改失败");
+        }
+
+        return new ResultUtil<Object>().setData(user);
+    }
+
+    @RequestMapping(value = "/modifyPass",method = RequestMethod.POST)
+    @ApiOperation(value = "修改密码",notes = "需获取用户id通过id修改")
+    public Result<Object> modifyPass(@ModelAttribute User u){
+
+        if(u.getId()==null){
+            throw new RentException("用户ID不得为空");
+        }
+        User old=userService.get(u.getId());
+
+        String newMd5Pass=DigestUtils.md5DigestAsHex(u.getNewPass().getBytes());
+        if(!old.getPassword().equals(newMd5Pass)){
+            throw new RentException("旧密码不正确");
+        }
+
+        old.setPassword(newMd5Pass);
+        User user=userService.update(old);
+        if(user==null){
+            throw new RentException("修改失败");
+        }
+
+        return new ResultUtil<Object>().setData(user);
+    }
+
 }
