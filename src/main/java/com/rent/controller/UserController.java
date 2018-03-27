@@ -68,7 +68,8 @@ public class UserController extends BaseController<User, Integer> {
 
         //验证登录
         Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(u.getUsername(),u.getPassword());
+        String md5Pass = DigestUtils.md5DigestAsHex(u.getPassword().getBytes());
+        UsernamePasswordToken token = new UsernamePasswordToken(u.getUsername(),md5Pass);
         try {
             subject.login(token);
             return new ResultUtil<Object>().setData(null);
