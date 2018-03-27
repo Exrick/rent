@@ -1,9 +1,9 @@
 package com.rent.controller;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.crypto.SecureUtil;
+import com.google.gson.Gson;
 import com.rent.base.BaseController;
-import com.rent.common.utils.ShiroUtil;
+import com.rent.common.utils.UserUtil;
 import com.rent.entity.User;
 import com.rent.exception.RentException;
 import com.rent.service.UserService;
@@ -11,18 +11,14 @@ import com.rent.common.utils.ResultUtil;
 import com.rent.common.vo.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
-import sun.security.provider.MD5;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -42,7 +38,7 @@ public class UserController extends BaseController<User, Integer> {
     private StringRedisTemplate stringRedisTemplate;
 
     @Autowired
-    private ShiroUtil shiroUtil;
+    private UserUtil userUtil;
 
     @Override
     public UserService getService() {
@@ -72,24 +68,24 @@ public class UserController extends BaseController<User, Integer> {
         }
 
         //验证登录
-        Subject subject = SecurityUtils.getSubject();
         String md5Pass = DigestUtils.md5DigestAsHex(u.getPassword().getBytes());
-        UsernamePasswordToken token = new UsernamePasswordToken(u.getUsername(),md5Pass);
-        try {
-            subject.login(token);
-            User user=userService.findByUsername(u.getUsername());
-            return new ResultUtil<Object>().setData(user);
-        }catch (Exception e){
+        User user=userService.findByUsername(u.getUsername());
+        if(!user.getPassword().equals(md5Pass)){
             return new ResultUtil<Object>().setErrorMsg("用户名或密码错误");
         }
+
+        String key= UUID.randomUUID().toString().replace("-","");
+        String value=new Gson().toJson(user);
+        stringRedisTemplate.opsForValue().set(key,value,30L, TimeUnit.MINUTES);
+        user.setToken(key);
+        return new ResultUtil<Object>().setData(user);
     }
 
-    @RequestMapping(value = "/logout",method = RequestMethod.GET)
+    @RequestMapping(value = "/logout/{token}",method = RequestMethod.GET)
     @ApiOperation(value = "退出登录")
-    public Result<Object> logout(){
+    public Result<Object> logout(@RequestParam String token){
 
-        Subject subject = SecurityUtils.getSubject();
-        subject.logout();
+        stringRedisTemplate.delete(token);
         return new ResultUtil<Object>().setData(null);
     }
 
@@ -129,22 +125,22 @@ public class UserController extends BaseController<User, Integer> {
         return new ResultUtil<Object>().setData(user);
     }
 
-    @RequestMapping(value = "/info/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "/info/{token}",method = RequestMethod.GET)
     @ApiOperation(value = "获取当前登录用户接口")
-    public Result<Object> getUserInfo(@PathVariable Integer id){
+    public Result<Object> getUserInfo(@PathVariable String token){
 
-        User user=userService.get(id);
+        User user=userUtil.getUserInfo(token);
         return new ResultUtil<Object>().setData(user);
     }
 
     @RequestMapping(value = "/edit",method = RequestMethod.POST)
-    @ApiOperation(value = "修改资料",notes = "用户名密码不会修改 需获取用户id")
+    @ApiOperation(value = "修改资料",notes = "用户名密码不会修改")
     public Result<Object> edit(@ModelAttribute User u){
 
-        if(u.getId()==null){
-            throw new RentException("用户id不能为空");
+        if(StrUtil.isBlank(u.getToken())){
+            throw new RentException("token不能为空");
         }
-        User old=userService.get(u.getId());
+        User old=userUtil.getUserInfo(u.getToken());
 
         u.setUsername(old.getUsername());
         u.setPassword(old.getPassword());
@@ -158,13 +154,13 @@ public class UserController extends BaseController<User, Integer> {
     }
 
     @RequestMapping(value = "/modifyPass",method = RequestMethod.POST)
-    @ApiOperation(value = "修改密码",notes = "用户名密码不会修改 需获取用户id")
+    @ApiOperation(value = "修改密码",notes = "用户名密码不会修改")
     public Result<Object> modifyPass(@ModelAttribute User u){
 
-        if(u.getId()==null){
-            throw new RentException("用户id不能为空");
+        if(StrUtil.isBlank(u.getToken())){
+            throw new RentException("token不能为空");
         }
-        User old=userService.get(u.getId());
+        User old=userUtil.getUserInfo(u.getToken());
 
         String newMd5Pass=DigestUtils.md5DigestAsHex(u.getNewPass().getBytes());
         if(!old.getPassword().equals(newMd5Pass)){

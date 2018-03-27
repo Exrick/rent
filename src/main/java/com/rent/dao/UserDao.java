@@ -7,14 +7,16 @@ import com.rent.entity.User;
 import java.util.List;
 
 /**
+ * 用户数据处理层
  * @author Exrickx
  */
 public interface UserDao extends BaseDao<User,Integer> {
 
     /**
-     * 通过用户名获取用户
+     * 通过用户名获取正常用户
      * @param username
+     * @param status
      * @return
      */
-    List<User> findByUsername(String username);
+    List<User> findByUsernameAndStatusIs(String username,Integer status);
 }

@@ -5,6 +5,7 @@ import com.rent.base.BaseService;
 import com.rent.entity.User;
 
 /**
+ * 用户接口
  * @author Exrickx
  */
 public interface UserService extends BaseService<User,Integer> {
