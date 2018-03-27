@@ -53,7 +53,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/**/favicon.ico", "anon");
 
         filterChainDefinitionMap.put("/**", "authc");
-        //shiroFilterFactoryBean.setLoginUrl("/user/login");
+        shiroFilterFactoryBean.setLoginUrl("/login");
         //shiroFilterFactoryBean.setSuccessUrl("/index");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);

@@ -3,6 +3,7 @@ package com.rent.controller;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.rent.base.BaseController;
+import com.rent.common.utils.ShiroUtil;
 import com.rent.entity.User;
 import com.rent.exception.RentException;
 import com.rent.service.UserService;
@@ -38,6 +39,9 @@ public class UserController extends BaseController<User, Integer> {
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private ShiroUtil shiroUtil;
 
     @Override
     public UserService getService() {
@@ -123,14 +127,19 @@ public class UserController extends BaseController<User, Integer> {
         return new ResultUtil<Object>().setData(user);
     }
 
+    @RequestMapping(value = "/getUserInfo",method = RequestMethod.POST)
+    @ApiOperation(value = "获取当前登录用户接口")
+    public Result<Object> getUserInfo(){
+
+        User user=shiroUtil.getUserInfo();
+        return new ResultUtil<Object>().setData(user);
+    }
+
     @RequestMapping(value = "/edit",method = RequestMethod.POST)
-    @ApiOperation(value = "修改资料",notes = "用户名密码不会修改 需获取用户id通过id修改")
+    @ApiOperation(value = "修改资料",notes = "用户名密码不会修改")
     public Result<Object> edit(@ModelAttribute User u){
 
-        if(u.getId()==null){
-            throw new RentException("用户ID不得为空");
-        }
-        User old=userService.get(u.getId());
+        User old=shiroUtil.getUserInfo();
 
         u.setUsername(old.getUsername());
         u.setPassword(old.getPassword());
@@ -144,13 +153,10 @@ public class UserController extends BaseController<User, Integer> {
     }
 
     @RequestMapping(value = "/modifyPass",method = RequestMethod.POST)
-    @ApiOperation(value = "修改密码",notes = "需获取用户id通过id修改")
+    @ApiOperation(value = "修改密码")
     public Result<Object> modifyPass(@ModelAttribute User u){
 
-        if(u.getId()==null){
-            throw new RentException("用户ID不得为空");
-        }
-        User old=userService.get(u.getId());
+        User old=shiroUtil.getUserInfo();
 
         String newMd5Pass=DigestUtils.md5DigestAsHex(u.getNewPass().getBytes());
         if(!old.getPassword().equals(newMd5Pass)){
