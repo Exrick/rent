@@ -127,7 +127,7 @@ public class UserController extends BaseController<User, Integer> {
         return new ResultUtil<Object>().setData(user);
     }
 
-    @RequestMapping(value = "/getUserInfo",method = RequestMethod.POST)
+    @RequestMapping(value = "/getUserInfo",method = RequestMethod.GET)
     @ApiOperation(value = "获取当前登录用户接口")
     public Result<Object> getUserInfo(){
 
