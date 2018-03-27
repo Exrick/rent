@@ -86,7 +86,7 @@ public class UserController extends BaseController<User, Integer> {
 
     @RequestMapping(value = "/logout/{token}",method = RequestMethod.GET)
     @ApiOperation(value = "退出登录")
-    public Result<Object> logout(@RequestParam String token){
+    public Result<Object> logout(@PathVariable String token){
 
         stringRedisTemplate.delete(token);
         return new ResultUtil<Object>().setData(null);
