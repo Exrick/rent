@@ -141,6 +141,7 @@ public class UserController extends BaseController<User, Integer> {
 
         User old=shiroUtil.getUserInfo();
 
+        u.setId(old.getId());
         u.setUsername(old.getUsername());
         u.setPassword(old.getPassword());
 
