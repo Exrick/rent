@@ -11,6 +11,7 @@ import com.rent.common.utils.ResultUtil;
 import com.rent.common.vo.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -76,7 +77,8 @@ public class UserController extends BaseController<User, Integer> {
         UsernamePasswordToken token = new UsernamePasswordToken(u.getUsername(),md5Pass);
         try {
             subject.login(token);
-            return new ResultUtil<Object>().setData(null);
+            User user=userService.findByUsername(u.getUsername());
+            return new ResultUtil<Object>().setData(user);
         }catch (Exception e){
             return new ResultUtil<Object>().setErrorMsg("用户名或密码错误");
         }
@@ -127,21 +129,23 @@ public class UserController extends BaseController<User, Integer> {
         return new ResultUtil<Object>().setData(user);
     }
 
-    @RequestMapping(value = "/getUserInfo",method = RequestMethod.GET)
+    @RequestMapping(value = "/info/{id}",method = RequestMethod.GET)
     @ApiOperation(value = "获取当前登录用户接口")
-    public Result<Object> getUserInfo(){
+    public Result<Object> getUserInfo(@PathVariable Integer id){
 
-        User user=shiroUtil.getUserInfo();
+        User user=userService.get(id);
         return new ResultUtil<Object>().setData(user);
     }
 
     @RequestMapping(value = "/edit",method = RequestMethod.POST)
-    @ApiOperation(value = "修改资料",notes = "用户名密码不会修改")
+    @ApiOperation(value = "修改资料",notes = "用户名密码不会修改 需获取用户id")
     public Result<Object> edit(@ModelAttribute User u){
 
-        User old=shiroUtil.getUserInfo();
+        if(u.getId()==null){
+            throw new RentException("用户id不能为空");
+        }
+        User old=userService.get(u.getId());
 
-        u.setId(old.getId());
         u.setUsername(old.getUsername());
         u.setPassword(old.getPassword());
 
@@ -154,10 +158,13 @@ public class UserController extends BaseController<User, Integer> {
     }
 
     @RequestMapping(value = "/modifyPass",method = RequestMethod.POST)
-    @ApiOperation(value = "修改密码")
+    @ApiOperation(value = "修改密码",notes = "用户名密码不会修改 需获取用户id")
     public Result<Object> modifyPass(@ModelAttribute User u){
 
-        User old=shiroUtil.getUserInfo();
+        if(u.getId()==null){
+            throw new RentException("用户id不能为空");
+        }
+        User old=userService.get(u.getId());
 
         String newMd5Pass=DigestUtils.md5DigestAsHex(u.getNewPass().getBytes());
         if(!old.getPassword().equals(newMd5Pass)){
