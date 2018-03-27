@@ -21,11 +21,9 @@ public abstract class BaseEntity implements Serializable{
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 唯一标识
-     */
     @Id
     @GeneratedValue
+    @ApiModelProperty(value = "唯一标识")
     private Integer id;
 
     private String createBy;

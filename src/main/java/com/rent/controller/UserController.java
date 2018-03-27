@@ -70,6 +70,9 @@ public class UserController extends BaseController<User, Integer> {
         //验证登录
         String md5Pass = DigestUtils.md5DigestAsHex(u.getPassword().getBytes());
         User user=userService.findByUsername(u.getUsername());
+        if(user==null){
+            return new ResultUtil<Object>().setErrorMsg("用户不存在或已被拉黑");
+        }
         if(!user.getPassword().equals(md5Pass)){
             return new ResultUtil<Object>().setErrorMsg("用户名或密码错误");
         }
