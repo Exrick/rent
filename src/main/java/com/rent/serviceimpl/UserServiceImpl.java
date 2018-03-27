@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUsername(String username) {
         
-        List<User> list=userDao.findByUsernameAndStatusIs(username, CommonConstant.STATUS_NORMAL);
+        List<User> list=userDao.findByUsernameAndStatusIs(username, CommonConstant.STATUS_USER_NORMAL);
         if(list!=null&&list.size()>0){
             return list.get(0);
         }
