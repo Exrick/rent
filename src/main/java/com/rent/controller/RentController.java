@@ -35,12 +35,14 @@ public class RentController extends BaseController<Rent,Integer>{
     @Autowired
     private UserUtil userUtil;
 
-    @RequestMapping(value = "/post",method = RequestMethod.GET)
+    @RequestMapping(value = "/post",method = RequestMethod.POST)
     @ApiOperation(value = "发布信息")
     public Result<Object> post(@RequestParam String token,
                                @ModelAttribute Rent rent){
 
         User user=userUtil.getUserInfo(token);
-        return new ResultUtil<Object>().setData(null);
+        rent.setUserId(user.getId());
+        Rent r=rentService.save(rent);
+        return new ResultUtil<Object>().setData(r);
     }
 }
