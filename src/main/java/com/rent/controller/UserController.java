@@ -152,6 +152,9 @@ public class UserController extends BaseController<User, Integer> {
         if(user==null){
             return new ResultUtil<Object>().setErrorMsg("修改失败");
         }
+        //更新登录用户资料
+        String value=new Gson().toJson(user);
+        stringRedisTemplate.opsForValue().set(u.getToken(),value,30L, TimeUnit.MINUTES);
 
         return new ResultUtil<Object>().setData(user);
     }
