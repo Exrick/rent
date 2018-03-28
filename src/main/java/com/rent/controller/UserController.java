@@ -122,7 +122,7 @@ public class UserController extends BaseController<User, Integer> {
         u.setPassword(md5Pass);
         User user=userService.save(u);
         if(user==null){
-            throw new RentException("注册失败");
+            return new ResultUtil<Object>().setErrorMsg("注册失败");
         }
 
         return new ResultUtil<Object>().setData(user);
@@ -137,11 +137,11 @@ public class UserController extends BaseController<User, Integer> {
     }
 
     @RequestMapping(value = "/edit",method = RequestMethod.POST)
-    @ApiOperation(value = "修改资料",notes = "用户名密码不会修改")
+    @ApiOperation(value = "修改资料",notes = "用户名密码不会修改 需要通过token获取原用户信息")
     public Result<Object> edit(@ModelAttribute User u){
 
         if(StrUtil.isBlank(u.getToken())){
-            throw new RentException("token不能为空");
+            return new ResultUtil<Object>().setErrorMsg("token不能为空");
         }
         User old=userUtil.getUserInfo(u.getToken());
 
@@ -150,30 +150,30 @@ public class UserController extends BaseController<User, Integer> {
 
         User user=userService.update(u);
         if(user==null){
-            throw new RentException("修改失败");
+            return new ResultUtil<Object>().setErrorMsg("修改失败");
         }
 
         return new ResultUtil<Object>().setData(user);
     }
 
     @RequestMapping(value = "/modifyPass",method = RequestMethod.POST)
-    @ApiOperation(value = "修改密码",notes = "用户名密码不会修改")
+    @ApiOperation(value = "修改密码",notes = "需token、password、newPass参数")
     public Result<Object> modifyPass(@ModelAttribute User u){
 
         if(StrUtil.isBlank(u.getToken())){
-            throw new RentException("token不能为空");
+            return new ResultUtil<Object>().setErrorMsg("token不能为空");
         }
         User old=userUtil.getUserInfo(u.getToken());
 
         String newMd5Pass=DigestUtils.md5DigestAsHex(u.getNewPass().getBytes());
         if(!old.getPassword().equals(newMd5Pass)){
-            throw new RentException("旧密码不正确");
+            return new ResultUtil<Object>().setErrorMsg("旧密码不正确");
         }
 
         old.setPassword(newMd5Pass);
         User user=userService.update(old);
         if(user==null){
-            throw new RentException("修改失败");
+            return new ResultUtil<Object>().setErrorMsg("修改失败");
         }
 
         return new ResultUtil<Object>().setData(user);

@@ -6,7 +6,10 @@ import com.rent.entity.Rent;
 import com.rent.service.RentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author Exrickx
@@ -21,5 +24,10 @@ public class RentServiceImpl implements RentService {
     @Override
     public RentDao getRepository() {
         return rentDao;
+    }
+
+    @Override
+    public List<Rent> findByStatusIs(Integer status, Pageable pageable) {
+        return rentDao.findByStatusIs(status,pageable);
     }
 }
