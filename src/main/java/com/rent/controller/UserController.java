@@ -169,11 +169,12 @@ public class UserController extends BaseController<User, Integer> {
         }
         User old=userUtil.getUserInfo(u.getToken());
 
-        String newMd5Pass=DigestUtils.md5DigestAsHex(u.getNewPass().getBytes());
-        if(!old.getPassword().equals(newMd5Pass)){
+        String oldMd5Pass=DigestUtils.md5DigestAsHex(u.getPassword().getBytes());
+        if(!old.getPassword().equals(oldMd5Pass)){
             return new ResultUtil<Object>().setErrorMsg("旧密码不正确");
         }
 
+        String newMd5Pass=DigestUtils.md5DigestAsHex(u.getNewPass().getBytes());
         old.setPassword(newMd5Pass);
         User user=userService.update(old);
         if(user==null){
