@@ -40,12 +40,6 @@ public class Region implements Serializable{
     @ApiModelProperty(value = "类型 1省 2市 3区")
     private Integer regionType;
 
-    @ApiModelProperty(value = "邮编")
-    private String zipcode;
-
-    @ApiModelProperty(value = "区号")
-    private String quhao;
-
     @ApiModelProperty(value = "状态")
     private Integer status;
 }
