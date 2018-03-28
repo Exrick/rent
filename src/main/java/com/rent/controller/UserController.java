@@ -78,9 +78,9 @@ public class UserController extends BaseController<User, Integer> {
         }
 
         String key= UUID.randomUUID().toString().replace("-","");
+        user.setToken(key);
         String value=new Gson().toJson(user);
         stringRedisTemplate.opsForValue().set(key,value,30L, TimeUnit.MINUTES);
-        user.setToken(key);
         return new ResultUtil<Object>().setData(user);
     }
 
