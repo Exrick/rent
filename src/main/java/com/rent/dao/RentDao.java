@@ -18,5 +18,5 @@ public interface RentDao extends BaseDao<Rent,Integer> {
      * @param pageable
      * @return
      */
-    List<Rent> findByStatusIs(Integer status, Pageable pageable);
+    List<Rent> findByStatusIsOrderByCreateTimeDesc(Integer status, Pageable pageable);
 }

@@ -2,6 +2,8 @@ package com.rent.service;
 
 import com.rent.base.BaseService;
 import com.rent.entity.Rent;
+import com.rent.entity.SearchVo;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -19,4 +21,11 @@ public interface RentService extends BaseService<Rent,Integer> {
      * @return
      */
     List<Rent> findByStatusIs(Integer status, Pageable pageable);
+
+    /**
+     * 搜索接口
+     * @param rent
+     * @return
+     */
+    Page<Rent> searchRent(SearchVo search, Pageable pageable);
 }
