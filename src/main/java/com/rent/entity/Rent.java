@@ -33,7 +33,7 @@ public class Rent extends BaseEntity {
     private Integer roomNum;
 
     @ApiModelProperty(value = "厅数量")
-    private Integer hallNUm;
+    private Integer hallNum;
 
     @ApiModelProperty(value = "卫数量")
     private Integer toiletNum;

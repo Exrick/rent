@@ -35,7 +35,7 @@ public class CaptchaController {
     @ApiOperation(value = "初始化验证码")
     public Result<Object> initCaptcha() {
 
-        String codeId= UUID.randomUUID().toString();
+        String codeId= UUID.randomUUID().toString().replace("-","");
         String code=new CreateVerifyCode().randomStr(4);
         Captcha captcha=new Captcha();
         captcha.setCaptchaId(codeId);

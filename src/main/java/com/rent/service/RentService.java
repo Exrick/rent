@@ -15,6 +15,7 @@ public interface RentService extends BaseService<Rent,Integer> {
     /**
      * 分页获取已通过信息
      * @param status
+     * @param pageable
      * @return
      */
     List<Rent> findByStatusIs(Integer status, Pageable pageable);

@@ -1,6 +1,5 @@
 package com.rent.serviceimpl;
 
-import com.rent.base.BaseDao;
 import com.rent.dao.RentDao;
 import com.rent.entity.Rent;
 import com.rent.service.RentService;
