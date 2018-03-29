@@ -7,11 +7,13 @@ import com.rent.common.vo.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.UUID;
 
 /**
@@ -30,25 +32,13 @@ public class ImageUploadController {
                                  HttpServletRequest request) {
 
         String imagePath=null;
-        String filePath = request.getSession().getServletContext().getRealPath("/upload")+"\\"
-                + QiniuUtil.renamePic(file.getOriginalFilename());
+        String fileName = QiniuUtil.renamePic(file.getOriginalFilename());
         try {
-            //保存至服务器
-            File f=new File((filePath));
-            if(!f.exists()){
-                f.mkdirs();
-            }
-            file.transferTo(f);
-            log.info("开始上传至七牛云");
+            FileInputStream inputStream = (FileInputStream) file.getInputStream();
             //上传七牛云服务器
-            imagePath= QiniuUtil.qiniuUpload(filePath);
+            imagePath= QiniuUtil.qiniuInputStreamUpload(inputStream,fileName);
             if(StrUtil.isBlank(imagePath)){
                 return new ResultUtil<Object>().setErrorMsg("上传失败，请检查七牛云配置");
-            }
-            log.info("上传成功:"+imagePath);
-            // 路径为文件且不为空则进行删除
-            if (f.isFile() && f.exists()) {
-                f.delete();
             }
         } catch (Exception e) {
             log.error(e.toString());

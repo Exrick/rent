@@ -16,6 +16,7 @@ import okhttp3.RequestBody;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -33,7 +34,7 @@ public class QiniuUtil {
     private static String secretKey = "pnm8kAw-kjdaRYPuwpuBOU-5eXc6KXNc4clHIoZg";
     private static String bucket = "xmall";
     private static String origin="http://ow2h3ee9w.bkt.clouddn.com/";
-    private static  Auth auth = Auth.create(accessKey, secretKey);
+    private static Auth auth = Auth.create(accessKey, secretKey);
 
     public static String qiniuUpload(String filePath){
 
@@ -54,6 +55,40 @@ public class QiniuUtil {
             DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
             return origin+putRet.key;
         }catch(QiniuException ex){
+            Response r = ex.response;
+            log.warn(r.toString());
+            try {
+                log.warn(r.bodyString());
+                return r.bodyString();
+            } catch (QiniuException ex2) {
+                //ignore
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 文件流上传
+     * @param file
+     * @param key 文件名
+     * @return
+     */
+    public static String qiniuInputStreamUpload(FileInputStream file,String key){
+
+        //构造一个带指定Zone对象的配置类 zone2华南
+        Configuration cfg = new Configuration(Zone.zone2());
+
+        UploadManager uploadManager = new UploadManager(cfg);
+
+        Auth auth = Auth.create(accessKey, secretKey);
+        String upToken = auth.uploadToken(bucket);
+
+        try {
+            Response response = uploadManager.put(file,key,upToken,null, null);
+            //解析上传成功的结果
+            DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
+            return origin+putRet.key;
+        } catch (QiniuException ex) {
             Response r = ex.response;
             log.warn(r.toString());
             try {
@@ -105,7 +140,7 @@ public class QiniuUtil {
     }
 
     /**
-     * 以时间戳重命名
+     * 以UUID重命名
      * @param fileName
      * @return
      */

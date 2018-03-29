@@ -17,16 +17,6 @@ import javax.servlet.MultipartConfigElement;
 @EnableJpaAuditing
 public class RentApplication {
 
-    @Value("${custom.location}")
-    private String tmpLocation;
-
-    @Bean
-    MultipartConfigElement multipartConfigElement() {
-        MultipartConfigFactory factory = new MultipartConfigFactory();
-        factory.setLocation(tmpLocation);
-        return factory.createMultipartConfig();
-    }
-
     public static void main(String[] args) {
         SpringApplication.run(RentApplication.class, args);
     }
