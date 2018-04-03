@@ -92,4 +92,10 @@ public class Rent extends BaseEntity {
 
     @ApiModelProperty(value = "驳回理由")
     private String backReason;
+
+    @ApiModelProperty(value = "成交状态 默认0未成交 1成交")
+    private Integer dealStatus = CommonConstant.STATUS_RENT_DEFAULT;
+
+    @ApiModelProperty(value = "成交金额")
+    private BigDecimal dealPrice;
 }

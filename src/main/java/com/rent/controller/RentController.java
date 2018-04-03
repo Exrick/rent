@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -78,7 +79,7 @@ public class RentController extends BaseController<Rent,Integer>{
         return new ResultUtil<Object>().setData(null);
     }
 
-    @RequestMapping(value = "/back",method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/back",method = RequestMethod.POST)
     @ApiOperation(value = "后台审核驳回")
     public Result<Object> back(@ApiParam("需要token获取管理员") @RequestParam String token,
                                @ApiParam("发布信息唯一id标识") @RequestParam Integer rentId,
@@ -98,6 +99,24 @@ public class RentController extends BaseController<Rent,Integer>{
         return new ResultUtil<Object>().setData(null);
     }
 
+    @RequestMapping(value = "/admin/cancel",method = RequestMethod.POST)
+    @ApiOperation(value = "后台下架")
+    public Result<Object> cancel(@ApiParam("需要token获取管理员") @RequestParam String token,
+                               @ApiParam("发布信息唯一id标识") @RequestParam Integer rentId){
+
+        User user=userUtil.getUserInfo(token);
+        if(!CommonConstant.TYPE_USER_ADMIN.equals(user.getType())){
+            return new ResultUtil<Object>().setErrorMsg("您不具备管理员权限");
+        }
+        Rent rent=rentService.get(rentId);
+        if(rent==null){
+            return new ResultUtil<Object>().setErrorMsg("通过rentId获取发布信息失败");
+        }
+        rent.setStatus(CommonConstant.STATUS_RENT_CANCEL);
+        rentService.update(rent);
+        return new ResultUtil<Object>().setData(null);
+    }
+
     @RequestMapping(value = "/user/getListByPage",method = RequestMethod.GET)
     @ApiOperation(value = "后台用户分页获取自己发布的信息")
     public Result<Object> getUserListByPage(@ModelAttribute PageVo pageVo,
@@ -106,5 +125,19 @@ public class RentController extends BaseController<Rent,Integer>{
         User user=userUtil.getUserInfo(token);
         Page<Rent> list=rentService.findByUserIdOrderByCreateTimeDesc(user.getId(), PageUtil.initPage(pageVo));
         return new ResultUtil<Object>().setData(list);
+    }
+
+    @RequestMapping(value = "/user/deal",method = RequestMethod.POST)
+    @ApiOperation(value = "后台用户修改成交状态")
+    public Result<Object> getUserListByPage(@ApiParam("需要token获取登录用户") @RequestParam String token,
+                                            @ApiParam("发布信息唯一id标识") @RequestParam Integer rentId,
+                                            @ApiParam("成交价格") @RequestParam BigDecimal dealPrice){
+
+        User user=userUtil.getUserInfo(token);
+        Rent rent=rentService.get(rentId);
+        rent.setDealStatus(CommonConstant.STATUS_RENT_DEAL);
+        rent.setDealPrice(dealPrice);
+        rentService.update(rent);
+        return new ResultUtil<Object>().setData(null);
     }
 }

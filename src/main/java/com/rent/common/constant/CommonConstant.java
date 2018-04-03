@@ -61,4 +61,9 @@ public interface CommonConstant {
      * 发布状态 下架
      */
     Integer STATUS_RENT_CANCEL=3;
+
+    /**
+     * 成交状态
+     */
+    Integer STATUS_RENT_DEAL=1;
 }
