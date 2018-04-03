@@ -3,13 +3,16 @@ package com.rent.controller;
 import cn.hutool.core.util.StrUtil;
 import com.google.gson.Gson;
 import com.rent.base.BaseController;
+import com.rent.common.constant.CommonConstant;
 import com.rent.common.utils.UserUtil;
+import com.rent.entity.Rent;
 import com.rent.entity.User;
 import com.rent.service.UserService;
 import com.rent.common.utils.ResultUtil;
 import com.rent.vo.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -181,6 +184,42 @@ public class UserController extends BaseController<User, Integer> {
         }
 
         return new ResultUtil<Object>().setData(user);
+    }
+
+    @RequestMapping(value = "/admin/disable",method = RequestMethod.POST)
+    @ApiOperation(value = "后台禁用用户")
+    public Result<Object> disable(@ApiParam("需要token获取管理员") @RequestParam String token,
+                               @ApiParam("用户唯一id标识") @RequestParam Integer userId){
+
+        User user=userUtil.getUserInfo(token);
+        if(!CommonConstant.TYPE_USER_ADMIN.equals(user.getType())){
+            return new ResultUtil<Object>().setErrorMsg("您不具备管理员权限");
+        }
+        User u=userService.get(userId);
+        if(u==null){
+            return new ResultUtil<Object>().setErrorMsg("通过userId获取用户失败");
+        }
+        u.setStatus(CommonConstant.STATUS_USER_LOCK);
+        userService.update(u);
+        return new ResultUtil<Object>().setData(null);
+    }
+
+    @RequestMapping(value = "/admin/enable",method = RequestMethod.POST)
+    @ApiOperation(value = "后台启用用户")
+    public Result<Object> enable(@ApiParam("需要token获取管理员") @RequestParam String token,
+                               @ApiParam("用户唯一id标识") @RequestParam Integer userId){
+
+        User user=userUtil.getUserInfo(token);
+        if(!CommonConstant.TYPE_USER_ADMIN.equals(user.getType())){
+            return new ResultUtil<Object>().setErrorMsg("您不具备管理员权限");
+        }
+        User u=userService.get(userId);
+        if(u==null){
+            return new ResultUtil<Object>().setErrorMsg("通过userId获取用户失败");
+        }
+        u.setStatus(CommonConstant.STATUS_USER_NORMAL);
+        userService.update(u);
+        return new ResultUtil<Object>().setData(null);
     }
 
 }
