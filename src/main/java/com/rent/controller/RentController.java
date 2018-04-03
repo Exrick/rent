@@ -12,6 +12,7 @@ import com.rent.entity.User;
 import com.rent.service.RentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -59,9 +60,9 @@ public class RentController extends BaseController<Rent,Integer>{
     }
 
     @RequestMapping(value = "/pass",method = RequestMethod.POST)
-    @ApiOperation(value = "后台审核通过", notes = "需要token获取管理员 rentId获取信息唯一id标识")
-    public Result<Object> pass(@RequestParam String token,
-                               @RequestParam Integer rentId){
+    @ApiOperation(value = "后台审核通过")
+    public Result<Object> pass(@ApiParam("需要token获取管理员") @RequestParam String token,
+                               @ApiParam("发布信息唯一id标识") @RequestParam Integer rentId){
 
         User user=userUtil.getUserInfo(token);
         if(!CommonConstant.TYPE_USER_ADMIN.equals(user.getType())){
@@ -72,6 +73,26 @@ public class RentController extends BaseController<Rent,Integer>{
             return new ResultUtil<Object>().setErrorMsg("通过rentId获取发布信息失败");
         }
         rent.setStatus(CommonConstant.STATUS_RENT_POST);
+        rentService.update(rent);
+        return new ResultUtil<Object>().setData(null);
+    }
+
+    @RequestMapping(value = "/back",method = RequestMethod.POST)
+    @ApiOperation(value = "后台审核驳回")
+    public Result<Object> back(@ApiParam("需要token获取管理员") @RequestParam String token,
+                               @ApiParam("发布信息唯一id标识") @RequestParam Integer rentId,
+                               @ApiParam("驳回理由") @RequestParam String reason){
+
+        User user=userUtil.getUserInfo(token);
+        if(!CommonConstant.TYPE_USER_ADMIN.equals(user.getType())){
+            return new ResultUtil<Object>().setErrorMsg("您不具备管理员权限");
+        }
+        Rent rent=rentService.get(rentId);
+        if(rent==null){
+            return new ResultUtil<Object>().setErrorMsg("通过rentId获取发布信息失败");
+        }
+        rent.setStatus(CommonConstant.STATUS_RENT_BACK);
+        rent.setBackReason(reason);
         rentService.update(rent);
         return new ResultUtil<Object>().setData(null);
     }

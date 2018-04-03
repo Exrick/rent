@@ -89,4 +89,7 @@ public class Rent extends BaseEntity {
 
     @ApiModelProperty(value = "描述/详情/备注")
     private String description;
+
+    @ApiModelProperty(value = "驳回理由")
+    private String backReason;
 }
