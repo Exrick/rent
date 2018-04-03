@@ -27,12 +27,12 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
-    public List<Region> findByRegionTypeIs(Integer type) {
-        return regionDao.findByRegionTypeIs(type);
+    public List<Region> findByRegionType(Integer type) {
+        return regionDao.findByRegionType(type);
     }
 
     @Override
-    public List<Region> findByRegionParentIdIs(Integer id) {
-        return regionDao.findByRegionParentIdIs(id);
+    public List<Region> findByRegionParentId(Integer id) {
+        return regionDao.findByRegionParentId(id);
     }
 }

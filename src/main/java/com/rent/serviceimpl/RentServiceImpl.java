@@ -34,8 +34,13 @@ public class RentServiceImpl implements RentService {
     }
 
     @Override
-    public List<Rent> findByStatusIs(Integer status, Pageable pageable) {
-        return rentDao.findByStatusIsOrderByCreateTimeDesc(status,pageable);
+    public Page<Rent> findByStatus(Integer status, Pageable pageable) {
+        return rentDao.findByStatusOrderByCreateTimeDesc(status,pageable);
+    }
+
+    @Override
+    public Page<Rent> findByUserIdOrderByCreateTimeDesc(Integer userId, Pageable pageable) {
+        return rentDao.findByUserIdOrderByCreateTimeDesc(userId,pageable);
     }
 
     @Override

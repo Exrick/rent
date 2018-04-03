@@ -20,11 +20,20 @@ public interface RentService extends BaseService<Rent,Integer> {
      * @param pageable
      * @return
      */
-    List<Rent> findByStatusIs(Integer status, Pageable pageable);
+    Page<Rent> findByStatus(Integer status, Pageable pageable);
+
+    /**
+     * 分页获取用户发布信息
+     * @param userId
+     * @param pageable
+     * @return
+     */
+    Page<Rent> findByUserIdOrderByCreateTimeDesc(Integer userId, Pageable pageable);
 
     /**
      * 搜索接口
-     * @param rent
+     * @param search
+     * @param pageable
      * @return
      */
     Page<Rent> searchRent(SearchVo search, Pageable pageable);

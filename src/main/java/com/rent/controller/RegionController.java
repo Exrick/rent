@@ -35,7 +35,7 @@ public class RegionController extends BaseController<Region,Integer>{
     @ApiOperation(value = "获取省数据")
     public Result<Object> getProvince(){
 
-        List<Region> list=rentService.findByRegionTypeIs(1);
+        List<Region> list=rentService.findByRegionType(1);
         return new ResultUtil<Object>().setData(list);
     }
 
@@ -43,7 +43,7 @@ public class RegionController extends BaseController<Region,Integer>{
     @ApiOperation(value = "获取省或市子级数据")
     public Result<Object> getChildren(@PathVariable Integer regionId){
 
-        List<Region> list=rentService.findByRegionParentIdIs(regionId);
+        List<Region> list=rentService.findByRegionParentId(regionId);
         return new ResultUtil<Object>().setData(list);
     }
 }

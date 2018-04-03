@@ -18,5 +18,5 @@ public interface UserDao extends BaseDao<User,Integer> {
      * @param status
      * @return
      */
-    List<User> findByUsernameAndStatusIs(String username,Integer status);
+    List<User> findByUsernameAndStatus(String username,Integer status);
 }

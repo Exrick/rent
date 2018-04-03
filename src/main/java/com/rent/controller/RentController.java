@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,7 +45,7 @@ public class RentController extends BaseController<Rent,Integer>{
     @ApiOperation(value = "前台分页获取发布通过信息")
     public Result<Object> getListByPage(@ModelAttribute PageVo page){
 
-        List<Rent> list=rentService.findByStatusIs(CommonConstant.STATUS_RENT_POST, PageUtil.initPage(page));
+        Page<Rent> list=rentService.findByStatus(CommonConstant.STATUS_RENT_POST, PageUtil.initPage(page));
         return new ResultUtil<Object>().setData(list);
     }
 
@@ -95,5 +96,15 @@ public class RentController extends BaseController<Rent,Integer>{
         rent.setBackReason(reason);
         rentService.update(rent);
         return new ResultUtil<Object>().setData(null);
+    }
+
+    @RequestMapping(value = "/user/getListByPage",method = RequestMethod.GET)
+    @ApiOperation(value = "后台用户分页获取自己发布的信息")
+    public Result<Object> getUserListByPage(@ModelAttribute PageVo pageVo,
+                                            @ApiParam("需要token获取登录用户") @RequestParam String token){
+
+        User user=userUtil.getUserInfo(token);
+        Page<Rent> list=rentService.findByUserIdOrderByCreateTimeDesc(user.getId(), PageUtil.initPage(pageVo));
+        return new ResultUtil<Object>().setData(list);
     }
 }

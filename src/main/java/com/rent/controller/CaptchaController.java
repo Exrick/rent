@@ -39,7 +39,7 @@ public class CaptchaController {
         Captcha captcha=new Captcha();
         captcha.setCaptchaId(codeId);
         //缓存验证码
-        stringRedisTemplate.opsForValue().set(codeId,code,1L, TimeUnit.MINUTES);
+        stringRedisTemplate.opsForValue().set(codeId,code,3L, TimeUnit.MINUTES);
         return new ResultUtil<Object>().setData(captcha);
     }
 

@@ -17,12 +17,12 @@ public interface RegionDao extends BaseDao<Region,Integer> {
      * @param type
      * @return
      */
-    List<Region> findByRegionTypeIs(Integer type);
+    List<Region> findByRegionType(Integer type);
 
     /**
      * 获取子级
      * @param id
      * @return
      */
-    List<Region> findByRegionParentIdIs(Integer id);
+    List<Region> findByRegionParentId(Integer id);
 }
