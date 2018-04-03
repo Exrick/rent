@@ -1,7 +1,7 @@
 package com.rent.common.utils;
 
 
-import com.rent.common.vo.Result;
+import com.rent.vo.Result;
 
 /**
  * @author Exrick

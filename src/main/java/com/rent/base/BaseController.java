@@ -2,8 +2,8 @@ package com.rent.base;
 
 import com.rent.common.utils.PageUtil;
 import com.rent.common.utils.ResultUtil;
-import com.rent.common.vo.PageVo;
-import com.rent.common.vo.Result;
+import com.rent.vo.PageVo;
+import com.rent.vo.Result;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

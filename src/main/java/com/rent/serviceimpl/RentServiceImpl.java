@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.rent.common.constant.CommonConstant;
 import com.rent.dao.RentDao;
 import com.rent.entity.Rent;
-import com.rent.entity.SearchVo;
+import com.rent.vo.SearchVo;
 import com.rent.service.RentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +88,7 @@ public class RentServiceImpl implements RentService {
                 }else if(search.getPriceGt()!=null&&search.getPriceLe()==null){
                     list.add(cb.greaterThanOrEqualTo(priceField,search.getPriceGt()));
                 }else if(search.getPriceGt()==null&&search.getPriceLe()!=null){
-                    list.add(cb.lessThanOrEqualTo(priceField,search.getPriceGt()));
+                    list.add(cb.lessThanOrEqualTo(priceField,search.getPriceLe()));
                 }
 
                 //模糊搜索

@@ -3,18 +3,15 @@ package com.rent.controller;
 import cn.hutool.core.util.StrUtil;
 import com.rent.common.utils.QiniuUtil;
 import com.rent.common.utils.ResultUtil;
-import com.rent.common.vo.Result;
+import com.rent.vo.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.io.FileInputStream;
-import java.util.UUID;
 
 /**
  * @author Exrickx

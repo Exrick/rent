@@ -1,15 +1,11 @@
 package com.rent.controller;
 
-import com.rent.base.BaseController;
-import com.rent.common.constant.CommonConstant;
 import com.rent.common.utils.PageUtil;
 import com.rent.common.utils.ResultUtil;
-import com.rent.common.utils.UserUtil;
-import com.rent.common.vo.PageVo;
-import com.rent.common.vo.Result;
+import com.rent.vo.PageVo;
+import com.rent.vo.Result;
 import com.rent.entity.Rent;
-import com.rent.entity.SearchVo;
-import com.rent.entity.User;
+import com.rent.vo.SearchVo;
 import com.rent.service.RentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,8 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @author Exrickx

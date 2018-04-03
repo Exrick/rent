@@ -1,4 +1,4 @@
-package com.rent.common.vo;
+package com.rent.vo;
 
 
 import lombok.Data;

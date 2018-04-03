@@ -2,8 +2,8 @@ package com.rent.controller;
 
 import com.rent.common.utils.CreateVerifyCode;
 import com.rent.common.utils.ResultUtil;
-import com.rent.common.vo.Captcha;
-import com.rent.common.vo.Result;
+import com.rent.vo.Captcha;
+import com.rent.vo.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;

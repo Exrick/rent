@@ -1,16 +1,14 @@
 package com.rent.controller;
 
 import com.rent.base.BaseController;
-import com.rent.base.BaseService;
 import com.rent.common.constant.CommonConstant;
 import com.rent.common.utils.PageUtil;
 import com.rent.common.utils.ResultUtil;
 import com.rent.common.utils.UserUtil;
-import com.rent.common.vo.PageVo;
-import com.rent.common.vo.Result;
+import com.rent.vo.PageVo;
+import com.rent.vo.Result;
 import com.rent.entity.Rent;
 import com.rent.entity.User;
-import com.rent.exception.RentException;
 import com.rent.service.RentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

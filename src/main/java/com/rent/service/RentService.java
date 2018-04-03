@@ -2,7 +2,7 @@ package com.rent.service;
 
 import com.rent.base.BaseService;
 import com.rent.entity.Rent;
-import com.rent.entity.SearchVo;
+import com.rent.vo.SearchVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

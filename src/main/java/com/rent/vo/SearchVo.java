@@ -1,4 +1,4 @@
-package com.rent.entity;
+package com.rent.vo;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

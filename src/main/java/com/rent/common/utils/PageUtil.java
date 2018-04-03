@@ -1,7 +1,7 @@
 package com.rent.common.utils;
 
 import cn.hutool.core.util.StrUtil;
-import com.rent.common.vo.PageVo;
+import com.rent.vo.PageVo;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

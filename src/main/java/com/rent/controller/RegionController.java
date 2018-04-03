@@ -2,10 +2,8 @@ package com.rent.controller;
 
 import com.rent.base.BaseController;
 import com.rent.common.utils.ResultUtil;
-import com.rent.common.vo.Result;
+import com.rent.vo.Result;
 import com.rent.entity.Region;
-import com.rent.entity.Rent;
-import com.rent.entity.User;
 import com.rent.service.RegionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
