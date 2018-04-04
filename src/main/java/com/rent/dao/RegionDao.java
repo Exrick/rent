@@ -25,4 +25,11 @@ public interface RegionDao extends BaseDao<Region,Integer> {
      * @return
      */
     List<Region> findByRegionParentId(Integer id);
+
+    /**
+     * 通过regionId获取
+     * @param regionId
+     * @return
+     */
+    List<Region> findByRegionId(Integer regionId);
 }

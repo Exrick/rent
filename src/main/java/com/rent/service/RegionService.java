@@ -25,4 +25,11 @@ public interface RegionService extends BaseService<Region,Integer> {
      * @return
      */
     List<Region> findByRegionParentId(Integer id);
+
+    /**
+     * 通过regionId获取
+     * @param regionId
+     * @return
+     */
+    Region findByRegionId(Integer regionId);
 }

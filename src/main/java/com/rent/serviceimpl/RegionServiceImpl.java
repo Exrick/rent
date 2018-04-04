@@ -35,4 +35,13 @@ public class RegionServiceImpl implements RegionService {
     public List<Region> findByRegionParentId(Integer id) {
         return regionDao.findByRegionParentId(id);
     }
+
+    @Override
+    public Region findByRegionId(Integer regionId) {
+        List<Region> list=regionDao.findByRegionId(regionId);
+        if(list!=null&&list.size()>0){
+            return list.get(0);
+        }
+        return null;
+    }
 }

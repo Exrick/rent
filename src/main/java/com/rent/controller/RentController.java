@@ -5,6 +5,8 @@ import com.rent.common.constant.CommonConstant;
 import com.rent.common.utils.PageUtil;
 import com.rent.common.utils.ResultUtil;
 import com.rent.common.utils.UserUtil;
+import com.rent.service.RegionService;
+import com.rent.service.UserService;
 import com.rent.vo.PageVo;
 import com.rent.vo.Result;
 import com.rent.entity.Rent;
@@ -34,6 +36,12 @@ public class RentController extends BaseController<Rent,Integer>{
     @Autowired
     private RentService rentService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private RegionService regionService;
+
     @Override
     public RentService getService() {
         return rentService;
@@ -57,6 +65,9 @@ public class RentController extends BaseController<Rent,Integer>{
 
         User user=userUtil.getUserInfo(token);
         rent.setUserId(user.getId());
+        rent.setProvinceName(regionService.findByRegionId(rent.getProvince()).getRegionName());
+        rent.setCityName(regionService.findByRegionId(rent.getCity()).getRegionName());
+        rent.setAreaName(regionService.findByRegionId(rent.getArea()).getRegionName());
         Rent r=rentService.save(rent);
         return new ResultUtil<Object>().setData(r);
     }
@@ -139,5 +150,15 @@ public class RentController extends BaseController<Rent,Integer>{
         rent.setDealPrice(dealPrice);
         rentService.update(rent);
         return new ResultUtil<Object>().setData(null);
+    }
+
+    @RequestMapping(value = "/detail/{rentId}",method = RequestMethod.GET)
+    @ApiOperation(value = "获取发布信息详情")
+    public Result<Object> getDetailById(@PathVariable Integer rentId){
+
+        Rent rent=rentService.get(rentId);
+        User user=userService.get(rent.getUserId());
+        rent.setUsername(user.getUsername());
+        return new ResultUtil<Object>().setData(rent);
     }
 }

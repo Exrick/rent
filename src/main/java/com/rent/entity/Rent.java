@@ -48,11 +48,20 @@ public class Rent extends BaseEntity {
     @ApiModelProperty(value = "省")
     private Integer province;
 
+    @ApiModelProperty(value = "省名称")
+    private String provinceName;
+
     @ApiModelProperty(value = "市")
     private Integer city;
 
+    @ApiModelProperty(value = "市名称")
+    private String cityName;
+
     @ApiModelProperty(value = "县")
     private Integer area;
+
+    @ApiModelProperty(value = "县名称")
+    private String areaName;
 
     @ApiModelProperty(value = "地址")
     private String address;
@@ -98,4 +107,8 @@ public class Rent extends BaseEntity {
 
     @ApiModelProperty(value = "成交金额")
     private BigDecimal dealPrice;
+
+    @Transient
+    @ApiModelProperty(value = "发布用户名")
+    private String username;
 }
