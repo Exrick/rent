@@ -1,5 +1,7 @@
 package com.rent.controller;
 
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
 import com.rent.base.BaseController;
 import com.rent.common.constant.CommonConstant;
 import com.rent.common.utils.PageUtil;
@@ -142,12 +144,16 @@ public class RentController extends BaseController<Rent,Integer>{
     @ApiOperation(value = "后台用户修改成交状态")
     public Result<Object> getUserListByPage(@ApiParam("需要token获取登录用户") @RequestParam String token,
                                             @ApiParam("发布信息唯一id标识") @RequestParam Integer rentId,
-                                            @ApiParam("成交价格") @RequestParam BigDecimal dealPrice){
+                                            @ApiParam("成交价格") @RequestParam BigDecimal dealPrice,
+                                            @ApiParam("成交时间 接收格式yyyy-MM-dd HH:mm:ss") @RequestParam(required = false) String dealTime){
 
         User user=userUtil.getUserInfo(token);
         Rent rent=rentService.get(rentId);
         rent.setDealStatus(CommonConstant.STATUS_RENT_DEAL);
         rent.setDealPrice(dealPrice);
+        if(StrUtil.isNotBlank(dealTime)){
+            rent.setDealTime(DateUtil.parse(dealTime, "yyyy-MM-dd HH:mm:ss"));
+        }
         rentService.update(rent);
         return new ResultUtil<Object>().setData(null);
     }
@@ -159,6 +165,16 @@ public class RentController extends BaseController<Rent,Integer>{
         Rent rent=rentService.get(rentId);
         User user=userService.get(rent.getUserId());
         rent.setUsername(user.getUsername());
+        return new ResultUtil<Object>().setData(rent);
+    }
+
+    @RequestMapping(value = "/viewCount/{rentId}",method = RequestMethod.GET)
+    @ApiOperation(value = "记录浏览人数")
+    public Result<Object> viewCount(@PathVariable Integer rentId){
+
+        Rent rent=rentService.get(rentId);
+        rent.setViewCount(rent.getViewCount()+1);
+        rentService.update(rent);
         return new ResultUtil<Object>().setData(rent);
     }
 }

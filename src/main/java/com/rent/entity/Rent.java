@@ -1,14 +1,17 @@
 package com.rent.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.rent.base.BaseEntity;
 import com.rent.common.constant.CommonConstant;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 房屋发布信息
@@ -90,6 +93,12 @@ public class Rent extends BaseEntity {
     @ApiModelProperty(value = "图片3")
     private String image3;
 
+    @ApiModelProperty(value = "图片4")
+    private String image4;
+
+    @ApiModelProperty(value = "图片5")
+    private String image5;
+
     @ApiModelProperty(value = "发布用户id")
     private Integer userId;
 
@@ -107,6 +116,14 @@ public class Rent extends BaseEntity {
 
     @ApiModelProperty(value = "成交金额")
     private BigDecimal dealPrice;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "成交时间 接收格式yyyy-MM-dd HH:mm:ss")
+    private Date dealTime;
+
+    @ApiModelProperty(value = "浏览人数")
+    private Integer viewCount;
 
     @Transient
     @ApiModelProperty(value = "发布用户名")
