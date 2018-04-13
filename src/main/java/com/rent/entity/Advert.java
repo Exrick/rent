@@ -39,5 +39,5 @@ public class Advert extends BaseEntity {
     private Integer type;
 
     @ApiModelProperty(value = "状态 默认0正常 -1下架")
-    private Integer status;
+    private Integer status = CommonConstant.STATUS_NORMAL;
 }

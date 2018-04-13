@@ -66,4 +66,9 @@ public interface CommonConstant {
      * 成交状态
      */
     Integer STATUS_RENT_DEAL=1;
+
+    /**
+     * 正常状态
+     */
+    Integer STATUS_NORMAL=0;
 }
