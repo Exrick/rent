@@ -18,13 +18,13 @@ import java.io.FileInputStream;
  */
 @Slf4j
 @RestController
-@Api(description = "图片上传接口")
-@RequestMapping("/image")
+@Api(description = "上传接口")
+@RequestMapping("/upload")
 @CrossOrigin
-public class ImageUploadController {
+public class UploadController {
 
-    @RequestMapping(value = "/upload",method = RequestMethod.POST)
-    @ApiOperation(value = "图片上传")
+    @RequestMapping(value = "/file",method = RequestMethod.POST)
+    @ApiOperation(value = "文件上传")
     public Result<Object> upload(@RequestParam("file") MultipartFile file,
                                  HttpServletRequest request) {
 

@@ -30,10 +30,10 @@ public class QiniuUtil {
     /**
      * 生成上传凭证，然后准备上传
      */
-    private static String accessKey = "foqF1A__-aTEg_8EWj5yb5oi4CFrcWnQluwEN1qV";
-    private static String secretKey = "pnm8kAw-kjdaRYPuwpuBOU-5eXc6KXNc4clHIoZg";
-    private static String bucket = "xmall";
-    private static String origin="http://ow2h3ee9w.bkt.clouddn.com/";
+    private static String accessKey = "_VKlMONYct_cXOibOAOQWukdZjHTd2p7J4NPjKn3";
+    private static String secretKey = "G4POT7bN4DM5rmirdXCyuPhBAOls2J6WWVKETrEa";
+    private static String bucket = "rent";
+    private static String origin="http://p77xsahe9.bkt.clouddn.com/";
     private static Auth auth = Auth.create(accessKey, secretKey);
 
     public static String qiniuUpload(String filePath){
