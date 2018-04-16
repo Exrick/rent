@@ -46,7 +46,6 @@ public class User extends BaseEntity {
     @ApiModelProperty(value = "0普通用户 1管理员")
     private Integer type = CommonConstant.TYPE_USER_NORMAL;
 
-
     @ApiModelProperty(value = "状态 默认0正常 -1拉黑")
     private Integer status = CommonConstant.STATUS_USER_NORMAL;
 

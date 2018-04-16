@@ -67,9 +67,9 @@ public class RentController extends BaseController<Rent,Integer>{
 
         User user=userUtil.getUserInfo(token);
         rent.setUserId(user.getId());
-        rent.setProvinceName(regionService.findByRegionId(rent.getProvince()).getRegionName());
-        rent.setCityName(regionService.findByRegionId(rent.getCity()).getRegionName());
-        rent.setAreaName(regionService.findByRegionId(rent.getArea()).getRegionName());
+        rent.setProvinceName(regionService.findByCode(rent.getProvince()).getName());
+        rent.setCityName(regionService.findByCode(rent.getCity()).getName());
+        rent.setAreaName(regionService.findByCode(rent.getArea()).getName());
         Rent r=rentService.save(rent);
         return new ResultUtil<Object>().setData(r);
     }

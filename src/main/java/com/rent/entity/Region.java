@@ -25,21 +25,15 @@ public class Region implements Serializable{
     @ApiModelProperty(value = "唯一标识")
     private Integer id;
 
+    @ApiModelProperty(value = "名称")
+    private String name;
+
     @ApiModelProperty(value = "父id")
     private Integer parentId;
 
-    @ApiModelProperty(value = "地区id")
-    private Integer regionId;
+    @ApiModelProperty(value = "地区代码")
+    private Integer code;
 
-    @ApiModelProperty(value = "地区父id")
-    private Integer regionParentId;
-
-    @ApiModelProperty(value = "地区名")
-    private String regionName;
-
-    @ApiModelProperty(value = "类型 1省 2市 3区")
-    private Integer regionType;
-
-    @ApiModelProperty(value = "状态")
-    private Integer status;
+    @ApiModelProperty(value = "排序")
+    private Integer order;
 }

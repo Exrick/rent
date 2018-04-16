@@ -13,23 +13,16 @@ import java.util.List;
 public interface RegionService extends BaseService<Region,Integer> {
 
     /**
-     * 通过类型获取
-     * @param type
-     * @return
-     */
-    List<Region> findByRegionType(Integer type);
-
-    /**
      * 获取子级
      * @param id
      * @return
      */
-    List<Region> findByRegionParentId(Integer id);
+    List<Region> findByParentIdOrderByOrderAsc(Integer id);
 
     /**
-     * 通过regionId获取
-     * @param regionId
+     * 通过code获取
+     * @param code
      * @return
      */
-    Region findByRegionId(Integer regionId);
+    Region findByCode(Integer code);
 }

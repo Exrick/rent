@@ -13,23 +13,16 @@ import java.util.List;
 public interface RegionDao extends BaseDao<Region,Integer> {
 
     /**
-     * 通过类型获取
-     * @param type
-     * @return
-     */
-    List<Region> findByRegionType(Integer type);
-
-    /**
      * 获取子级
      * @param id
      * @return
      */
-    List<Region> findByRegionParentId(Integer id);
+    List<Region> findByParentIdOrderByOrderAsc(Integer id);
 
     /**
-     * 通过regionId获取
-     * @param regionId
+     * 通过code获取
+     * @param code
      * @return
      */
-    List<Region> findByRegionId(Integer regionId);
+    List<Region> findByCode(Integer code);
 }

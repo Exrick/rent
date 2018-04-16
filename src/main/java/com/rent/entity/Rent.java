@@ -99,6 +99,9 @@ public class Rent extends BaseEntity {
     @ApiModelProperty(value = "图片5")
     private String image5;
 
+    @ApiModelProperty(value = "视频")
+    private String video;
+
     @ApiModelProperty(value = "发布用户id")
     private Integer userId;
 
