@@ -18,11 +18,4 @@ public interface RegionService extends BaseService<Region,Integer> {
      * @return
      */
     List<Region> findByParentIdOrderByOrderAsc(Integer id);
-
-    /**
-     * 通过code获取
-     * @param code
-     * @return
-     */
-    Region findByCode(Integer code);
 }

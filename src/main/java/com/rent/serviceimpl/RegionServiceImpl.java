@@ -30,13 +30,4 @@ public class RegionServiceImpl implements RegionService {
     public List<Region> findByParentIdOrderByOrderAsc(Integer id) {
         return regionDao.findByParentIdOrderByOrderAsc(id);
     }
-
-    @Override
-    public Region findByCode(Integer code) {
-        List<Region> list = regionDao.findByCode(code);
-        if(list!=null&&list.size()>0){
-            return list.get(0);
-        }
-        return null;
-    }
 }

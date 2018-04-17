@@ -18,11 +18,4 @@ public interface RegionDao extends BaseDao<Region,Integer> {
      * @return
      */
     List<Region> findByParentIdOrderByOrderAsc(Integer id);
-
-    /**
-     * 通过code获取
-     * @param code
-     * @return
-     */
-    List<Region> findByCode(Integer code);
 }

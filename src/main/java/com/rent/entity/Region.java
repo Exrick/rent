@@ -22,7 +22,7 @@ public class Region implements Serializable{
 
     @Id
     @GeneratedValue
-    @ApiModelProperty(value = "唯一标识")
+    @ApiModelProperty(value = "唯一标识(地区代码)")
     private Integer id;
 
     @ApiModelProperty(value = "名称")
@@ -30,9 +30,6 @@ public class Region implements Serializable{
 
     @ApiModelProperty(value = "父id")
     private Integer parentId;
-
-    @ApiModelProperty(value = "地区代码")
-    private Integer code;
 
     @ApiModelProperty(value = "排序")
     private Integer order;
