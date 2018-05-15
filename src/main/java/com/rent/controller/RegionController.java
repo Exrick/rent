@@ -48,7 +48,7 @@ public class RegionController extends BaseController<Region,Integer>{
     }
 
     @RequestMapping(value = "/findByName/{name}",method = RequestMethod.GET)
-    @ApiOperation(value = "获取省或市子级数据")
+    @ApiOperation(value = "通过名称查找城市")
     public Result<Region> findByName(@PathVariable String name){
 
         Region region = rentService.findByNameLike(name);
