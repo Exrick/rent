@@ -30,4 +30,13 @@ public class RegionServiceImpl implements RegionService {
     public List<Region> findByParentIdOrderByOrderAsc(Integer id) {
         return regionDao.findByParentIdOrderByOrderAsc(id);
     }
+
+    @Override
+    public Region findByNameLike(String name) {
+        List<Region> list = regionDao.findByNameLike(name);
+        if(list!=null&&list.size()>0){
+            return list.get(0);
+        }
+        return null;
+    }
 }
